@@ -1,9 +1,11 @@
 package com.wix.spec2
 
+import com.wix.spec2.PersonMatchers._
+import com.wix.spec2.WorkshopMatchers._
 import org.specs2.matcher.{Matcher, Matchers}
-import org.specs2.mutable.Specification
+import org.specs2.mutable.SpecWithJUnit
 
-class AdaptWorkshopTest extends Specification with PersonMatchers with WorkshopMatchers {
+class AdaptWorkshopTest extends SpecWithJUnit {
 
   "Adapt matchers" should {
 
@@ -56,7 +58,8 @@ class AdaptWorkshopTest extends Specification with PersonMatchers with WorkshopM
 }
 
 
-trait PersonMatchers { self: Matchers =>
+object PersonMatchers {
+  import Matchers._
 
   def beMiddleAged: Matcher[Person] = beBetween(40, 60) ^^ { (p: Person) => ??? }
 
@@ -69,7 +72,8 @@ trait PersonMatchers { self: Matchers =>
   def haveAverageOf(sum: Int): Matcher[Seq[Int]] = beEqualTo(sum) ^^ { (s: Seq[Int]) => ??? }
 }
 
-trait WorkshopMatchers { self: Matchers =>
+object WorkshopMatchers { self: Matchers =>
+  import Matchers._
 
   def haveDevelopers(developers: Person*): Matcher[Workshop] = (??? : Matcher[Seq[Person]]) ^^ { (_: Workshop).developers aka "developers" }
 

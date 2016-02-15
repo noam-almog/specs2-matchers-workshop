@@ -35,6 +35,13 @@
             <version>${specs2.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.specs2</groupId>
+            <artifactId>specs2-junit_${scala.version}</artifactId>
+            <version>${specs2.version}</version>
+        </dependency>
+
+
     </dependencies>
 
     <repositories>
