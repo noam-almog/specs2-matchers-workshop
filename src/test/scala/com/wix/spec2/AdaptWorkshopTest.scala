@@ -1,7 +1,9 @@
 package com.wix.spec2
 
+import com.wix.spec2.AlterPersonMatchers._
 import com.wix.spec2.PersonMatchers._
 import com.wix.spec2.WorkshopMatchers._
+import org.specs2.matcher.Matchers._
 import org.specs2.matcher.{Matcher, Matchers}
 import org.specs2.mutable.SpecWithJUnit
 
@@ -26,8 +28,8 @@ class AdaptWorkshopTest extends SpecWithJUnit {
     "be able to match sum of a list" in {
       Seq(30, 40, 30) must haveSumOf(100)
     }
-    
-    "be able to match avarage of a list" in {
+
+    "be able to match average of a list" in {
       Seq(25, 25, 100) must haveAverageOf(50)
     }
   }
@@ -55,6 +57,18 @@ class AdaptWorkshopTest extends SpecWithJUnit {
     }
   }
 
+  "Alter Matcher function" should {
+    "person should be equal even if they have different names" in {
+      val person =  Person(name = "dev1")
+
+      person.copy(name = "another name") must beSameAs( person )
+    }
+
+    "compare workshops only by person excluding names" in {
+      Workshop( developers = Seq( Person(name = "dev1"), Person(name = "dev2") ) ) must haveTheSameDevelopersAs( Person(name = "dev4"), Person(name = "dev3") )
+    }
+  }
+
 }
 
 
@@ -70,10 +84,14 @@ object PersonMatchers {
   def haveSumOf(sum: Int): Matcher[Seq[Int]] = beEqualTo(sum) ^^ { (s: Seq[Int]) => ??? }
   
   def haveAverageOf(sum: Int): Matcher[Seq[Int]] = beEqualTo(sum) ^^ { (s: Seq[Int]) => ??? }
+
+  def beSameAs(p: Person): Matcher[Person] =
+    be_===( p ) ^^^ { (p: Person) => ??? }
 }
 
-object WorkshopMatchers { self: Matchers =>
+object WorkshopMatchers {
   import Matchers._
+  import PersonMatchers._
 
   def haveDevelopers(developers: Person*): Matcher[Workshop] = (??? : Matcher[Seq[Person]]) ^^ { (_: Workshop).developers aka "developers" }
 
@@ -82,6 +100,10 @@ object WorkshopMatchers { self: Matchers =>
   def beWorkshopWith(room: String, developers: Person*): Matcher[Workshop] = ???  // reuse previous matchers
 
   def beWorkshopThat(matches: Matcher[Seq[Person]]): Matcher[Workshop] = ???
+
+  def haveTheSameDevelopersAs(developers: Person*): Matcher[Workshop] =
+    contain(allOf( Seq[Matcher[Person]](???):_* )) ^^ { (_: Workshop).developers aka "developers"}
+  // developers.map( person => Matcher[Person] )
 }
 
 
