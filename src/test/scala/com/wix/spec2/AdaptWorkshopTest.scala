@@ -1,6 +1,5 @@
 package com.wix.spec2
 
-import com.wix.spec2.AlterPersonMatchers._
 import com.wix.spec2.PersonMatchers._
 import com.wix.spec2.WorkshopMatchers._
 import org.specs2.matcher.Matchers._
@@ -91,7 +90,6 @@ object PersonMatchers {
 
 object WorkshopMatchers {
   import Matchers._
-  import PersonMatchers._
 
   def haveDevelopers(developers: Person*): Matcher[Workshop] = (??? : Matcher[Seq[Person]]) ^^ { (_: Workshop).developers aka "developers" }
 
