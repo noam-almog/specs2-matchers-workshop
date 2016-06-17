@@ -100,8 +100,8 @@ object WorkshopMatchers {
   def beWorkshopThat(matches: Matcher[Seq[Person]]): Matcher[Workshop] = ???
 
   def haveTheSameDevelopersAs(developers: Person*): Matcher[Workshop] =
-    contain(allOf( Seq[Matcher[Person]](???):_* )) ^^ { (_: Workshop).developers aka "developers"}
-  // developers.map( person => Matcher[Person] )
+    contain(exactly( Seq[Matcher[Person]](???):_* )) ^^ { (_: Workshop).developers aka "developers"}
+  // clue: developers.map( person => Matcher[Person] )
 }
 
 
